@@ -24,6 +24,11 @@ with open("usd_pairs.txt", "r") as file:
     crypto_list = [line.strip().replace("USDT", "-USD") for line in file.readlines()[0:]]
 random.shuffle(crypto_list)
 
+with open("us30.txt") as file:
+    bist30_list = [line.strip() for line in file.readlines()]
+
+crypto_list = bist30_list
+
 # %80 Eğitim - %20 Test Split
 train_size = int(len(crypto_list) * 0.8)
 train_list = crypto_list[:train_size]
@@ -296,7 +301,7 @@ for crypto in crypto_list:
 
     print(f"Downloading data for {crypto}...")
     try:
-        data = yf.download(crypto, period="60d", interval="5m")
+        data = yf.download(crypto, period="5y", interval="1d")
         data.reset_index(inplace=True)
         data.columns = ["Datetime", "Open", "High", "Low", "Close", "Volume"]
 
